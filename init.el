@@ -71,10 +71,10 @@
   (dolist (f (directory-files parent-dir))
     (let ((name (expand-file-name f parent-dir)))
       (when (and (file-directory-p name)
-         (not (equal f ".."))
-         (not (equal f ".")))
-    (add-to-list 'load-path name)
-    (add-subfolders-to-load-path name)))))
+		 (not (equal f ".."))
+		 (not (equal f ".")))
+	(add-to-list 'load-path name)
+	(add-subfolders-to-load-path name)))))
 
 (add-to-list 'load-path personal-vendor-dir)
 (add-subfolders-to-load-path personal-vendor-dir)
@@ -212,8 +212,8 @@ PACKAGE is installed only if not already present.  The file is opened in MODE."
   (when buffer-file-name
     (let ((dir (file-name-directory buffer-file-name)))
       (when (and (not (file-exists-p dir))
-         (y-or-n-p (format "Directory %s does not exist. Create it?" dir)))
-    (make-directory dir t)))))
+		 (y-or-n-p (format "Directory %s does not exist. Create it?" dir)))
+	(make-directory dir t)))))
 (add-hook 'before-save-hook 'make-directory-automaticly-on-save)
 
 
@@ -253,9 +253,9 @@ PACKAGE is installed only if not already present.  The file is opened in MODE."
           (defun get-other-window ()
             (walk-windows
              (function (lambda(w)
-             (if (not (equal w (selected-window)))
-                 (push w vis-w)))))
-        (car vis-w))
+			 (if (not (equal w (selected-window)))
+			     (push w vis-w)))))
+	    (car vis-w))
           (setq other-b (window-buffer (get-other-window)))
 
           ;; clear other window
@@ -806,3 +806,8 @@ Repeated invocations toggle between the two most recently open buffers."
 (setq projectile-keymap-prefix (kbd "C-c C-p"))
 (setq projectile-completion-system 'grizzl)
 (projectile-global-mode)
+
+(custom-set-faces
+ '(flymake-errline ((t (:foreground "#5f0000" :background "#EE6AA7" :weight bold :underline nil))))
+ '(flymake-warnline ((t (:foreground "#968b26" :background "#fff68f" :weight bold :underline nil))))
+)
