@@ -1,0 +1,4 @@
+# -*- mode: snippet -*-
+# name: req
+# --
+(require '${1:module-name})
