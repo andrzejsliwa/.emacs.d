@@ -14,10 +14,10 @@
 (global-set-key (kbd "C-c p l") 'linum-mode)
 
 (global-set-key (kbd "C-c b") 'ace-jump-buffer)
-(global-set-key (kbd "C-x 7") 'ace-jump-word-mode)
-(global-set-key (kbd "C-x 8") 'ace-jump-char-mode)
-(global-set-key (kbd "C-x 9") 'ace-jump-line-mode)
-(global-set-key (kbd "C-x 0") 'ace-jump-buffer)
+(global-set-key (kbd "C-c SPC") 'ace-jump-mode)
+(global-set-key (kbd "C-c a c") 'ace-jump-char-mode)
+(global-set-key (kbd "C-c a l") 'ace-jump-line-mode)
+(global-set-key (kbd "C-c a b") 'ace-jump-mode-pop-mark)
 
 (global-set-key (kbd "C-c C-r") 'rename-file-and-buffer)
 (global-set-key (kbd "C-c C-d") 'delete-file-and-buffer)
