@@ -19,8 +19,11 @@
 (global-set-key (kbd "C-c a l") 'ace-jump-line-mode)
 (global-set-key (kbd "C-c a b") 'ace-jump-mode-pop-mark)
 
-(global-set-key (kbd "C-c C-r") 'rename-file-and-buffer)
-(global-set-key (kbd "C-c C-d") 'delete-file-and-buffer)
+(global-set-key (kbd "C-q") 'bury-buffer)
+(global-set-key (kbd "C-c Q") 'switch-to-previous-buffer)
+
+(global-set-key (kbd "C-c f r") 'rename-file-and-buffer)
+(global-set-key (kbd "C-c f d") 'delete-file-and-buffer)
 
 (global-set-key (kbd "C-c s n") 'yas-new-snippet)
 (global-set-key (kbd "C-c s i") 'yas-insert-snippet)
@@ -28,7 +31,6 @@
 
 (global-set-key (kbd "C-x SPC") 'ace-jump-mode-pop-mark)
 (global-set-key (kbd "C-x g") 'magit-status)
-(global-set-key (kbd "M-i") 'indent-region-or-buffer)
 (global-set-key (kbd "C-x 0") 'delete-window)
 (global-set-key (kbd "C-x 1") 'delete-other-windows)
 (global-set-key (kbd "C-x 2") 'split-window-vertically-and-other-window)
@@ -40,11 +42,9 @@
 
 (global-set-key (kbd "M-x") 'smex)
 (global-set-key (kbd "M-X") 'smex-major-mode-commands)
-
-(global-set-key (kbd "C-q") 'bury-buffer)
-(global-set-key (kbd "C-c Q") 'switch-to-previous-buffer)
 (global-set-key (kbd "M-=") 'er/expand-region)
 (global-set-key (kbd "M--") 'er/contract-region)
+(global-set-key (kbd "M-i") 'indent-region-or-buffer)
 (global-set-key [(meta n)] 'forward-paragraph)
 (global-set-key [(meta p)] 'backward-paragraph)
 
@@ -751,7 +751,6 @@ Repeated invocations toggle between the two most recently open buffers."
 ;; +-------------------+
 (require 'zoom-window)
 (setq zoom-window-mode-line-color "#403D3D")
-
 
 ;; +--
 ;; | ACE JUMP
