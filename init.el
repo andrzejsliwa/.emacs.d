@@ -48,7 +48,6 @@
 (global-set-key [(meta n)] 'forward-paragraph)
 (global-set-key [(meta p)] 'backward-paragraph)
 
-
 (defvar personal-dir (file-name-directory load-file-name)
   "The root dir of the emacs configuration.")
 (defvar personal-vendor-dir (expand-file-name "vendor" personal-dir)
@@ -102,6 +101,7 @@
     gitignore-mode
     gist
     paredit
+    w3m
     )
   "A list of packages to ensure are installed at launch.")
 
@@ -810,4 +810,4 @@ Repeated invocations toggle between the two most recently open buffers."
 (custom-set-faces
  '(flymake-errline ((t (:foreground "#5f0000" :background "#EE6AA7" :weight bold :underline nil))))
  '(flymake-warnline ((t (:foreground "#968b26" :background "#fff68f" :weight bold :underline nil))))
-)
+ )
