@@ -446,6 +446,24 @@ Repeated invocations toggle between the two most recently open buffers."
       `((".*" ,temporary-file-directory t)))
 (setq create-lockfiles nil)
 
+(personal-require-packages '(plantuml-mode))
+(setq plantuml-jar-path (expand-file-name "vendor/plantuml.jar" personal-dir))
+(eval-after-load "plantuml-mode"
+  '(progn
+     (defun plantuml-compile ()
+       "Run plantuml over current file and open the result png."
+       (interactive)
+       (let ((file buffer-file-name))
+         (shell-command (concat "java -jar '" plantuml-jar-path
+                                "' '" file "' -tpng"))
+         (shell-command (concat "open -a Preview " (concat (file-name-directory file)
+                                                 (file-name-sans-extension
+                                                  (file-name-nondirectory file))
+                                                 ".png")))))
+     (let ((map (make-sparse-keymap)))
+       (define-key map "\C-c\C-c" 'plantuml-compile)
+       (setq plantuml-mode-map map))))
+
 ;; tramp, for sudo access
 (require 'tramp)
 ;; keep in mind known issues with zsh - see emacs wiki
