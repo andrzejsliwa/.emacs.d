@@ -1,3 +1,8 @@
+(global-set-key (kbd "M-?") (lambda () ;; cheatsheet ;)
+			      (interactive)
+			      (find-file "~/.emacs.d/init.el")
+			      (beginning-of-buffer)
+			      ))
 (global-set-key (kbd "C-c p f") 'projectile-find-file)
 (global-set-key (kbd "C-c p F") 'projectile-find-file-other-window)
 (global-set-key (kbd "C-c p d") 'projectile-find-dir)
