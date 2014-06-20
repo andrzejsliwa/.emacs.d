@@ -492,7 +492,7 @@ Repeated invocations toggle between the two most recently open buffers."
 (global-flycheck-mode t)
 
 ;; +--
-;; | FLYCHECK
+;; | PBCOPY
 ;; +-------------------+
 (require 'pbcopy)
 (turn-on-pbcopy)
