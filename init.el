@@ -1,3 +1,4 @@
+(define-key function-key-map (kbd "§") 'event-apply-super-modifier)
 (global-set-key (kbd "M-?") (lambda () ;; cheatsheet ;)
 			      (interactive)
 			      (find-file "~/.emacs.d/init.el")
@@ -83,7 +84,9 @@
 (add-to-list 'load-path personal-vendor-dir)
 (add-subfolders-to-load-path personal-vendor-dir)
 
-
+(require 'llvm-mode)
+(add-to-list 'auto-mode-alist
+                               '("\\.ll\\'" . llvm-mode))
 ;; +--
 ;; | PACKAGES
 ;; +-------------------+
@@ -447,6 +450,10 @@ Repeated invocations toggle between the two most recently open buffers."
 (setq create-lockfiles nil)
 
 (personal-require-packages '(plantuml-mode))
+
+(dolist (r '("\\.plu$" "\\.uml$" "\\.pla$"))
+  (add-to-list 'auto-mode-alist (cons r 'plantuml-mode)))
+
 (setq plantuml-jar-path (expand-file-name "vendor/plantuml.jar" personal-dir))
 (eval-after-load "plantuml-mode"
   '(progn
@@ -483,6 +490,12 @@ Repeated invocations toggle between the two most recently open buffers."
 (require 'flycheck)
 (add-hook 'after-init-hook #'global-flycheck-mode)
 (global-flycheck-mode t)
+
+;; +--
+;; | FLYCHECK
+;; +-------------------+
+(require 'pbcopy)
+(turn-on-pbcopy)
 
 ;; +--
 ;; | RUBY
