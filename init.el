@@ -1,9 +1,10 @@
+(setq projectile-keymap-prefix (kbd "C-c C-p"))
 (define-key function-key-map (kbd "§") 'event-apply-super-modifier)
 (global-set-key (kbd "M-?") (lambda () ;; cheatsheet ;)
-			      (interactive)
-			      (find-file "~/.emacs.d/init.el")
-			      (beginning-of-buffer)
-			      ))
+                              (interactive)
+                              (find-file "~/.emacs.d/init.el")
+                              (beginning-of-buffer)
+                              ))
 (global-set-key (kbd "C-c p f") 'projectile-find-file)
 (global-set-key (kbd "C-c p F") 'projectile-find-file-other-window)
 (global-set-key (kbd "C-c p d") 'projectile-find-dir)
@@ -16,6 +17,7 @@
 (global-set-key (kbd "C-c p p") 'projectile-switch-project)
 (global-set-key (kbd "C-c p s") 'projectile-save-project-buffers)
 (global-set-key (kbd "C-c p r") 'projectile-recentf)
+(global-set-key (kbd "C-c p R") 'recentf-projectile-find-file)
 (global-set-key (kbd "C-c p z") 'zoom-window-zoom)
 (global-set-key (kbd "C-c p l") 'linum-mode)
 
@@ -54,6 +56,65 @@
 (global-set-key [(meta n)] 'forward-paragraph)
 (global-set-key [(meta p)] 'backward-paragraph)
 
+;;;; * Debugging, Tracing, and Profiling
+
+;; M-: (info "(elisp) Debugging") RET
+
+;; Standard debugger:
+;;   M-x debug-on-entry FUNCTION
+;;   M-x cancel-debug-on-entry &optional FUNCTION
+;; debug &rest DEBUGGER-ARGS
+;;   M-x toggle-debug-on-error
+;;   M-x toggle-debug-on-quit
+;;   setq debug-on-signal
+;;   setq debug-on-next-call
+;;   setq debug-on-event
+;;   setq debug-on-message REGEXP
+;;
+;; Edebug -- a source-level debugger for Emacs Lisp
+;;   M-x edebug-defun (C-u C-M-x) Cancel with eval-defun (C-M-x)
+;;   M-x edebug-all-defs -- Toggle edebugging of all definitions
+;;   M-x edebug-all-forms -- Toggle edebugging of all forms
+;;   M-x edebug-eval-top-level-form
+
+;; Tracing:
+;;   M-x trace-function FUNCTION &optional BUFFER
+;;   M-x untrace-function FUNCTION
+;;   M-x untrace-all
+
+;; Timing and benchmarking:
+;; (benchmark-run &optional REPETITIONS &rest FORMS)
+
+;; Emacs Lisp Profiler (ELP)
+;;   M-x elp-instrument-package
+;;   M-x elp-instrument-list
+;;   M-x elp-instrument-function
+;;   M-x elp-reset-*
+;;   M-x elp-results
+;;   M-x elp-restore-all
+;;
+;; "There's a built-in profiler called ELP. You can try something like
+;; M-x elp-instrument-package, enter "vc", and then try finding a file
+;; Afterwards, M-x elp-results will show you a profile report.
+;; (Note that if the time is instead being spent in non-vc-related
+;; functions, this technique will not show it, but you can instrument
+;; further packages if you like.)" http://stackoverflow.com/a/6732810/324105
+
+;; CPU & Memory Profiler ('Native Profiler')
+;;   M-x profiler-start
+;;   M-x profiler-report
+;;   M-x profiler-reset
+;;   M-x profiler-stop
+;;   M-x profiler-*
+
+;; Dope ("DOtemacs ProfilEr. A per-sexp-evaltime profiler.")
+;; https://raw.github.com/emacsmirror/dope/master/dope.el
+;;   M-x dope-quick-start will show a little introduction tutorial.
+
+;; Spinning:
+;; Set debug-on-quit to t
+;; When the problem happens, hit C-g for a backtrace.
+
 (defvar personal-dir (file-name-directory load-file-name)
   "The root dir of the emacs configuration.")
 (defvar personal-vendor-dir (expand-file-name "vendor" personal-dir)
@@ -76,17 +137,17 @@
   (dolist (f (directory-files parent-dir))
     (let ((name (expand-file-name f parent-dir)))
       (when (and (file-directory-p name)
-		 (not (equal f ".."))
-		 (not (equal f ".")))
-	(add-to-list 'load-path name)
-	(add-subfolders-to-load-path name)))))
+                 (not (equal f ".."))
+                 (not (equal f ".")))
+        (add-to-list 'load-path name)
+        (add-subfolders-to-load-path name)))))
 
 (add-to-list 'load-path personal-vendor-dir)
 (add-subfolders-to-load-path personal-vendor-dir)
 
 (require 'llvm-mode)
 (add-to-list 'auto-mode-alist
-                               '("\\.ll\\'" . llvm-mode))
+             '("\\.ll\\'" . llvm-mode))
 ;; +--
 ;; | PACKAGES
 ;; +-------------------+
@@ -220,8 +281,8 @@ PACKAGE is installed only if not already present.  The file is opened in MODE."
   (when buffer-file-name
     (let ((dir (file-name-directory buffer-file-name)))
       (when (and (not (file-exists-p dir))
-		 (y-or-n-p (format "Directory %s does not exist. Create it?" dir)))
-	(make-directory dir t)))))
+                 (y-or-n-p (format "Directory %s does not exist. Create it?" dir)))
+        (make-directory dir t)))))
 (add-hook 'before-save-hook 'make-directory-automaticly-on-save)
 
 
@@ -261,9 +322,9 @@ PACKAGE is installed only if not already present.  The file is opened in MODE."
           (defun get-other-window ()
             (walk-windows
              (function (lambda(w)
-			 (if (not (equal w (selected-window)))
-			     (push w vis-w)))))
-	    (car vis-w))
+                         (if (not (equal w (selected-window)))
+                             (push w vis-w)))))
+            (car vis-w))
           (setq other-b (window-buffer (get-other-window)))
 
           ;; clear other window
@@ -414,6 +475,16 @@ Repeated invocations toggle between the two most recently open buffers."
            (line-beginning-position 2)))))
 
 
+
+(defun recentf-projectile-find-file ()
+  "Find a recent file using ido."
+  (interactive)
+  (let ((file (projectile-completing-read "Choose recent file: "
+                                   (-map 'abbreviate-file-name recentf-list)
+                                   nil)))
+    (when file
+      (find-file file))))
+
 ;; +--
 ;; | BASIC SETTINGS
 ;; +-------------------+
@@ -464,9 +535,9 @@ Repeated invocations toggle between the two most recently open buffers."
          (shell-command (concat "java -jar '" plantuml-jar-path
                                 "' '" file "' -tpng"))
          (shell-command (concat "open -a Preview " (concat (file-name-directory file)
-                                                 (file-name-sans-extension
-                                                  (file-name-nondirectory file))
-                                                 ".png")))))
+                                                           (file-name-sans-extension
+                                                            (file-name-nondirectory file))
+                                                           ".png")))))
      (let ((map (make-sparse-keymap)))
        (define-key map "\C-c\C-c" 'plantuml-compile)
        (setq plantuml-mode-map map))))
@@ -649,9 +720,9 @@ Repeated invocations toggle between the two most recently open buffers."
 (setq erlang-flymake-get-include-dirs-function 'erlang-get-deps-include-dirs)
 
 (add-hook 'erlang-mode-hook
-          (lambda ()
-            (setq inferior-erlang-machine-options (dynamic-inferior-erlang-machine-options))
-            (setq erlang-compile-extra-opts (dynamic-erlang-compile-extra-opts))))
+      (lambda ()
+        (setq inferior-erlang-machine-options (dynamic-inferior-erlang-machine-options))
+        (setq erlang-compile-extra-opts (dynamic-erlang-compile-extra-opts))))
 
 (defun dynamic-erlang-compile-extra-opts ()
   "Generate compile optins with all 'include' dirs."
@@ -838,9 +909,8 @@ Repeated invocations toggle between the two most recently open buffers."
 ;; +--
 ;; | PROJECTILE
 ;; +-------------------+
-(personal-require-packages '(projectile grizzl))
-(setq projectile-keymap-prefix (kbd "C-c C-p"))
 (setq projectile-completion-system 'grizzl)
+(personal-require-packages '(projectile grizzl))
 (projectile-global-mode)
 
 (custom-set-faces
