@@ -1,5 +1,4 @@
 (setq projectile-keymap-prefix (kbd "C-c C-p"))
-(define-key function-key-map (kbd "§") 'event-apply-super-modifier)
 (global-set-key (kbd "M-?") (lambda () ;; cheatsheet ;)
                               (interactive)
                               (find-file "~/.emacs.d/init.el")

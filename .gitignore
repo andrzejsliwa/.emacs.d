@@ -20,3 +20,5 @@ projectile-bookmarks.eld
 session*
 *~
 tags
+/projectile.cache
+/tramp
