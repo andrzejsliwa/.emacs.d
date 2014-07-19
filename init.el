@@ -28,6 +28,7 @@
 
 (global-set-key (kbd "C-q") 'bury-buffer)
 (global-set-key (kbd "C-c Q") 'switch-to-previous-buffer)
+(global-set-key (kbd "C-x C-k") 'kill-other-buffers)
 
 (global-set-key (kbd "C-c f r") 'rename-file-and-buffer)
 (global-set-key (kbd "C-c f d") 'delete-file-and-buffer)
@@ -593,6 +594,13 @@ Repeated invocations toggle between the two most recently open buffers."
   (if region
 	  (kill-region (region-beginning) (region-end))
 	(backward-kill-word arg)))
+
+(defun kill-other-buffers ()
+  "Kill all other buffers."
+  (interactive)
+  (mapc 'kill-buffer
+		(delq (current-buffer)
+			  (remove-if-not 'buffer-file-name (buffer-list)))))
 
 (defun recentf-projectile-find-file ()
   "Find a recent file using ido."
