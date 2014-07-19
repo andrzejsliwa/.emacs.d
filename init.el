@@ -46,6 +46,7 @@
 (global-set-key (kbd "C-x 5") 'swap-windows)
 (global-set-key (kbd "C-x 6") 'split-window-transpose)
 (global-set-key (kbd "TAB") 'smart-tab)
+(global-set-key (kbd "C-w") 'kill-region-or-backward-kill-word)
 
 (global-set-key (kbd "M-x") 'smex)
 (global-set-key (kbd "M-X") 'smex-major-mode-commands)
@@ -54,6 +55,118 @@
 (global-set-key (kbd "M-i") 'indent-region-or-buffer)
 (global-set-key [(meta n)] 'forward-paragraph)
 (global-set-key [(meta p)] 'backward-paragraph)
+
+;; DISTEL
+;; '(("\C-c\C-di" edb-toggle-interpret)
+;;   ("\C-x "     edb-toggle-breakpoint)
+;;   ("\C-c\C-db" edb-toggle-breakpoint)
+;;   ("\C-c\C-ds" edb-synch-breakpoints)
+;;   ("\C-c\C-dS" edb-save-dbg-state)
+;;   ("\C-c\C-dR" edb-restore-dbg-state)
+;;   ("\C-c\C-dm" edb-monitor)
+;;   ("\C-c\C-d:" erl-eval-expression)
+;;   ("\C-c\C-dL" erl-reload-module)
+;;   ("\C-c\C-dr" erl-reload-modules)
+;;   ("\C-c\C-dp" fprof)
+;;   ("\C-c\C-dP" fprof-analyse)
+;;   ("\C-c\C-d." erl-find-source-under-point)
+;;   ("\C-c\C-d," erl-find-source-unwind)
+;;   ("\C-c\C-dl" erl-process-list)
+;;   ("\C-\M-i"   erl-complete) ; M-TAB
+;;   ("\M-?"      erl-complete) ; Some windowmanagers hijack M-TAB..
+;;   ("\C-c\C-de" erl-ie-show-session)
+;;   ("\C-c\C-df" erl-refactor-subfunction)
+;;   ("\C-c\C-dF" erl-find-module)
+;;   ("\C-c\C-dg" erl-ping)
+;;   ("\C-c\C-dA" erl-show-arglist)
+;;   ("\C-c\C-dh" erl-find-doc-under-point)
+;;   ("\C-c\C-dH" erl-find-doc)
+;;   ("\C-c\C-dz" erl-find-sig-under-point)
+;;   ("\C-c\C-dZ" erl-find-sig)
+;;   ("\C-c\C-dd" erl-fdoc-describe)
+;;   ("\C-c\C-da" erl-fdoc-apropos)
+;;   ("\C-c\C-dw" erl-who-calls)
+;;   ("\C-c\C-dn" erl-choose-nodename)
+;;   ("("         erl-openparen)
+;;   ;; Possibly "controversial" shorter keys
+;;   ("\M-."      erl-find-source-under-point)  ; usually `find-tag'
+;;   ("\M-*"      erl-find-source-unwind) ; usually `pop-tag-mark'
+;;   ("\M-,"      erl-find-source-unwind) ; usually `tags-loop-continue'
+;;   ;;("\M-/"      erl-complete) ; usually `dabbrev-expand'
+;;   )
+;; "Keys to bind in distel-mode-map.")
+
+;; WRANGLER
+
+;; (define-key erlang-mode-map "\C-c\C-w_"  'erl-refactor-undo)
+;; (define-key erlang-mode-map "\C-c\C-wb" 'erl-wrangler-code-inspector-var-instances)
+;; (define-key erlang-mode-map "\C-c\C-wx" 'erl-wrangler-code-inspector-backward-slice)
+;; (define-key erlang-mode-map "\C-c\C-we" 'remove-highlights)
+;; (define-key erlang-mode-map "\C-c\C-wrv" 'erl-refactor-rename-var)
+;; (define-key erlang-mode-map "\C-c\C-wrf"  'erl-refactor-rename-fun)
+;; (define-key erlang-mode-map "\C-c\C-wrm"  'erl-refactor-rename-mod)
+;; (define-key erlang-mode-map "\C-c\C-wg"    'erl-refactor-generalisation)
+;; (define-key erlang-mode-map "\C-c\C-wm"   'erl-refactor-move-fun)
+;; (define-key erlang-mode-map "\C-c\C-wnv"  'erl-refactor-new-variable)
+;; (define-key erlang-mode-map "\C-c\C-wi"  'erl-refactor-inline-variable)
+;; (define-key erlang-mode-map "\C-c\C-wnf"  'erl-refactor-fun-extraction)
+;; (define-key erlang-mode-map "\C-c\C-wff"   'erl-refactor-fold-expression)
+;; (define-key erlang-mode-map "\C-c\C-wt"  'erl-refactor-tuple-funpar)
+;; (define-key erlang-mode-map "\C-c\C-wu"  'erl-refactor-unfold-fun)
+;; (define-key erlang-mode-map "\C-c\C-wnm"  'erl-refactor-new-macro)
+;; (define-key erlang-mode-map "\C-c\C-wfm"  'erl-refactor-fold-against-macro)
+;; (define-key erlang-mode-map "\C-c\C-ws"  'erl-refactor-similar-expression-search)
+;; (define-key erlang-mode-map "\C-c\C-wcb"  'erl-refactor-inc-sim-code-detection-in-buffer)
+;; (define-key erlang-mode-map "\C-c\C-wcd"  'erl-refactor-inc-sim-code-detection-in-dirs)
+
+
+;; ERLANG
+;; (unless (boundp 'indent-line-function)
+;;   (define-key map "\t"        'erlang-indent-command))
+;; (define-key map ";"        'erlang-electric-semicolon)
+;; (define-key map ","        'erlang-electric-comma)
+;; (define-key map "<"         'erlang-electric-lt)
+;; (define-key map ">"         'erlang-electric-gt)
+;; (define-key map "\C-m"      'erlang-electric-newline)
+;; (if (not (boundp 'delete-key-deletes-forward))
+;;     (define-key map "\177" 'backward-delete-char-untabify)
+;;   (define-key map [(backspace)] 'backward-delete-char-untabify))
+;; ;;(unless (boundp 'fill-paragraph-function)
+;; (define-key map "\M-q"      'erlang-fill-paragraph)
+;; (unless (boundp 'beginning-of-defun-function)
+;;   (define-key map "\M-\C-a"   'erlang-beginning-of-function)
+;;   (define-key map "\M-\C-e"   'erlang-end-of-function)
+;;   (define-key map '(meta control h)   'erlang-mark-function))    ; Xemacs
+;; (define-key map "\M-\t"     'erlang-complete-tag)
+;; (define-key map "\C-c\M-\t" 'tempo-complete-tag)
+;; (define-key map "\M-+"      'erlang-find-next-tag)
+;; (define-key map "\C-c\M-a"  'erlang-beginning-of-clause)
+;; (define-key map "\C-c\M-b"  'tempo-backward-mark)
+;; (define-key map "\C-c\M-e"  'erlang-end-of-clause)
+;; (define-key map "\C-c\M-f"  'tempo-forward-mark)
+;; (define-key map "\C-c\M-h"  'erlang-mark-clause)
+;; (define-key map "\C-c\C-c"  'comment-region)
+;; (define-key map "\C-c\C-j"  'erlang-generate-new-clause)
+;; (define-key map "\C-c\C-k"  'erlang-compile)
+;; (define-key map "\C-c\C-l"  'erlang-compile-display)
+;; (define-key map "\C-c\C-s"  'erlang-show-syntactic-information)
+;; (define-key map "\C-c\C-q"  'erlang-indent-function)
+;; (define-key map "\C-c\C-u"  'erlang-uncomment-region)
+;; (define-key map "\C-c\C-y"  'erlang-clone-arguments)
+;; (define-key map "\C-c\C-a"  'erlang-align-arrows)
+;; (define-key map "\C-c\C-z"  'erlang-shell-display)
+;; (unless inferior-erlang-use-cmm
+;;   (define-key map "\C-x`"    'erlang-next-error))
+
+;; Erlang Eunit
+
+;; '(("\C-c\C-et" erlang-eunit-toggle-src-and-test-file-other-window)
+;;   ("\C-c\C-ek" erlang-eunit-compile-and-run-module-tests)
+;;   ("\C-c\C-ej" erlang-eunit-compile-and-run-current-test)
+;;   ("\C-c\C-el" erlang-eunit-compile-and-run-recent)
+;;   ("\C-c\C-ec" erlang-eunit-compile-and-run-module-tests-under-cover)
+;;   ("\C-c\C-ev" erlang-eunit-cover-compile)
+;;   ("\C-c\C-ea" erlang-eunit-analyze-coverage)))
 
 ;;;; * Debugging, Tracing, and Profiling
 
@@ -144,9 +257,9 @@
 (add-to-list 'load-path personal-vendor-dir)
 (add-subfolders-to-load-path personal-vendor-dir)
 
-(require 'llvm-mode)
+(require 'go-mode)
 (add-to-list 'auto-mode-alist
-             '("\\.ll\\'" . llvm-mode))
+             '("\\.go\\'" . go-mode))
 ;; +--
 ;; | PACKAGES
 ;; +-------------------+
@@ -473,16 +586,22 @@ Repeated invocations toggle between the two most recently open buffers."
      (list (line-beginning-position)
            (line-beginning-position 2)))))
 
-
+(defun kill-region-or-backward-kill-word (&optional arg region)
+  "`kill-region' if the region is active, otherwise `backward-kill-word'"
+  (interactive
+   (list (prefix-numeric-value current-prefix-arg) (use-region-p)))
+  (if region
+	  (kill-region (region-beginning) (region-end))
+	(backward-kill-word arg)))
 
 (defun recentf-projectile-find-file ()
   "Find a recent file using ido."
   (interactive)
   (let ((file (projectile-completing-read "Choose recent file: "
-                                   (-map 'abbreviate-file-name recentf-list)
-                                   nil)))
-    (when file
-      (find-file file))))
+										  (-map 'abbreviate-file-name recentf-list)
+										  nil)))
+	(when file
+	  (find-file file))))
 
 ;; +--
 ;; | BASIC SETTINGS
@@ -502,6 +621,7 @@ Repeated invocations toggle between the two most recently open buffers."
 (column-number-mode t)
 (delete-selection-mode t)
 (global-auto-revert-mode t)
+(setq default-tab-width 4)
 
 ;; utf-8 encoding
 (set-terminal-coding-system 'utf-8)
@@ -514,9 +634,9 @@ Repeated invocations toggle between the two most recently open buffers."
 
 ;; store all backup and autosave files in the tmp dir
 (setq backup-directory-alist
-      `((".*" . ,temporary-file-directory)))
+	  `((".*" . ,temporary-file-directory)))
 (setq auto-save-file-name-transforms
-      `((".*" ,temporary-file-directory t)))
+	  `((".*" ,temporary-file-directory t)))
 (setq create-lockfiles nil)
 
 (personal-require-packages '(plantuml-mode))
@@ -527,19 +647,19 @@ Repeated invocations toggle between the two most recently open buffers."
 (setq plantuml-jar-path (expand-file-name "vendor/plantuml.jar" personal-dir))
 (eval-after-load "plantuml-mode"
   '(progn
-     (defun plantuml-compile ()
-       "Run plantuml over current file and open the result png."
-       (interactive)
-       (let ((file buffer-file-name))
-         (shell-command (concat "java -jar '" plantuml-jar-path
-                                "' '" file "' -tpng"))
-         (shell-command (concat "open -a Preview " (concat (file-name-directory file)
-                                                           (file-name-sans-extension
-                                                            (file-name-nondirectory file))
-                                                           ".png")))))
-     (let ((map (make-sparse-keymap)))
-       (define-key map "\C-c\C-c" 'plantuml-compile)
-       (setq plantuml-mode-map map))))
+	 (defun plantuml-compile ()
+	   "Run plantuml over current file and open the result png."
+	   (interactive)
+	   (let ((file buffer-file-name))
+		 (shell-command (concat "java -jar '" plantuml-jar-path
+								"' '" file "' -tpng"))
+		 (shell-command (concat "open -a Preview " (concat (file-name-directory file)
+														   (file-name-sans-extension
+															(file-name-nondirectory file))
+														   ".png")))))
+	 (let ((map (make-sparse-keymap)))
+	   (define-key map "\C-c\C-c" 'plantuml-compile)
+	   (setq plantuml-mode-map map))))
 
 ;; tramp, for sudo access
 (require 'tramp)
@@ -570,17 +690,18 @@ Repeated invocations toggle between the two most recently open buffers."
 ;; +--
 ;; | RUBY
 ;; +-------------------+
-(personal-require-packages '(robe inf-ruby rvm))
+(personal-require-packages '(robe inf-ruby rvm projectile-rails ruby-refactor ruby-tools))
+(add-hook 'projectile-mode-hook 'projectile-rails-on)
 (dolist (r '("\\.rake\\'"
-             "Rakefile\\'"
-             "\\.gemspec\\'"
-             "\\.ru\\'"
-             "Gemfile\\'"
-             "Guardfile\\'"
-             "Capfile\\'"
-             "\\.thor\\'"
-             "Thorfile\\'"
-             "Vagrantfile\\'"))
+			 "Rakefile\\'"
+			 "\\.gemspec\\'"
+			 "\\.ru\\'"
+			 "Gemfile\\'"
+			 "Guardfile\\'"
+			 "Capfile\\'"
+			 "\\.thor\\'"
+			 "Thorfile\\'"
+			 "Vagrantfile\\'"))
   (add-to-list 'auto-mode-alist (cons r 'ruby-mode)))
 
 ;; We never want to edit Rubinius bytecode
@@ -588,28 +709,31 @@ Repeated invocations toggle between the two most recently open buffers."
 
 (eval-after-load 'ruby-mode
   '(progn
-     (defun ruby-mode-defaults ()
-       (inf-ruby-minor-mode +1)
-       (ruby-tools-mode +1)
-       ;; CamelCase aware editing operations
-       (subword-mode +1))
-     (add-hook 'ruby-mode-hook 'ruby-mode-defaults)))
+	 (defun ruby-mode-defaults ()
+	   ;;(inf-ruby-minor-mode +1)
+	   (ruby-tools-mode +1)
+	   ;; CamelCase aware editing operations
+	   (subword-mode +1))
+	 (add-hook 'ruby-mode-hook 'ruby-mode-defaults)))
+
+(add-hook 'ruby-mode-hook 'inf-ruby-minor-mode)
 
 (require 'robe)
 ;; handle underscore as part of word
 (add-hook 'ruby-mode-hook
-          (lambda () (modify-syntax-entry ?_ "w")))
+		  (lambda () (modify-syntax-entry ?_ "w")))
 
 (add-hook 'ruby-mode-hook
-          (lambda ()
-            (local-set-key (kbd "C-c C-k") 'inf-ruby-console-auto)
-            (local-set-key (kbd "C-c C-z") 'inf-ruby-console-auto)
-            (rvm-activate-corresponding-ruby)))
+		  (lambda ()
+			(local-set-key (kbd "C-c C-k") 'inf-ruby-console-auto)
+			(local-set-key (kbd "C-c C-z") 'inf-ruby-console-auto)
+			(rvm-activate-corresponding-ruby)))
 
 (add-hook 'ruby-mode-hook 'ruby-refactor-mode-launch)
 (add-hook 'ruby-mode-hook 'robe-mode)
 (defadvice inf-ruby-console-auto (before activate-rvm-for-robe activate)
   (rvm-activate-corresponding-ruby))
+
 
 ;; +--
 ;; | CLOJURE
@@ -618,6 +742,20 @@ Repeated invocations toggle between the two most recently open buffers."
 (dolist (r '("\\.cljs$" "\\.cljx$" "\\.edn$"))
   (add-to-list 'auto-mode-alist (cons r 'clojure-mode)))
 
+;; cider
+(require 'cider)
+(add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
+(setq cider-repl-pop-to-buffer-on-connect t)
+(setq cider-popup-stacktraces t)
+(setq cider-repl-popup-stacktraces t)
+(setq cider-auto-select-error-buffer t)
+(setq cider-repl-history-file "~/.cider-history")
+(setq cider-repl-wrap-history t)
+
+(add-hook 'cider-repl-mode-hook 'subword-mode)
+(add-hook 'cider-repl-mode-hook 'paredit-mode)
+(add-hook 'cider-repl-mode-hook 'rainbow-delimiters-mode)
+
 ;; +--
 ;; | ERLANG
 ;; +-------------------+
@@ -625,24 +763,24 @@ Repeated invocations toggle between the two most recently open buffers."
 
 (eval-after-load "erlang"
   '(progn
-     (require 'erlang-start)
-     (require 'erlang-eunit)
-     (require 'erlang-flymake)
-     (erlang-flymake-only-on-save)))
+	 (require 'erlang-start)
+	 (require 'erlang-eunit)
+	 (require 'erlang-flymake)
+	 (erlang-flymake-only-on-save)))
 
 ;; take care about soft tabs
 (add-hook 'erlang-mode-hook
-          (lambda ()
-            (setq-local flycheck-checkers '())
-            (setq-default indent-tabs-mode nil)
-            (setq erlang-compile-function 'inferior-erlang-compile)
-            (modify-syntax-entry ?_ "w")
-            (setq erlang-eunit-autosave t)
-            (setq-default tab-width 4)))
+		  (lambda ()
+			(setq-local flycheck-checkers '())
+			(setq-default indent-tabs-mode nil)
+			(setq erlang-compile-function 'inferior-erlang-compile)
+			(modify-syntax-entry ?_ "w")
+			(setq erlang-eunit-autosave t)
+			(setq-default tab-width 4)))
 
 (add-hook 'erlang-shell-mode-hook
-          (lambda ()
-            (setq truncate-lines nil)))
+		  (lambda ()
+			(setq truncate-lines nil)))
 
 (dolist (r '("rebar.config$" ".erlang$" "\\.config$" "\\.rel$"))
   (add-to-list 'auto-mode-alist (cons r 'erlang-mode)))
@@ -663,51 +801,51 @@ Repeated invocations toggle between the two most recently open buffers."
 ;; search for top project directory
 (defun erlang-find-rebar-top-recr (dirname)
   (let* ((project-dir (or (locate-dominating-file dirname "rebar.config")
-                          (locate-dominating-file dirname "Makefile"))))
-    (if project-dir
-        (let* ((parent-dir
-                (file-name-directory (directory-file-name project-dir)))
-               (top-project-dir
-                (if (and parent-dir (not (string= parent-dir "/")))
-                    (erlang-find-rebar-top-recr parent-dir)
-                  nil)))
-          (if top-project-dir
-              top-project-dir
-            project-dir))
-      project-dir)))
+						  (locate-dominating-file dirname "Makefile"))))
+	(if project-dir
+		(let* ((parent-dir
+				(file-name-directory (directory-file-name project-dir)))
+			   (top-project-dir
+				(if (and parent-dir (not (string= parent-dir "/")))
+					(erlang-find-rebar-top-recr parent-dir)
+				  nil)))
+		  (if top-project-dir
+			  top-project-dir
+			project-dir))
+	  project-dir)))
 
 (defun erlang-find-rebar-top ()
   (interactive)
   (let* ((dirname (file-name-directory (buffer-file-name)))
-         (project-dir (erlang-find-rebar-top-recr dirname)))
-    (if project-dir
-        project-dir
-      (erlang-flymake-get-app-dir))))
+		 (project-dir (erlang-find-rebar-top-recr dirname)))
+	(if project-dir
+		project-dir
+	  (erlang-flymake-get-app-dir))))
 
 (defun erlang-directory-dirs (dir name)
   "Find all directories in DIR."
   (unless (file-directory-p dir)
-    (error "Not a directory `%s'" dir))
+	(error "Not a directory `%s'" dir))
   (let ((dir (directory-file-name dir))
-        (dirs '())
-        (files (directory-files dir nil nil t)))
-    (dolist (file files)
-      (unless (member file '("." ".."))
-        (let ((absolute-path (expand-file-name (concat dir "/" file))))
-          (when (file-directory-p absolute-path)
-            (if (string= file name)
-                (setq dirs (append
-                            (cons absolute-path
-                                  (erlang-directory-dirs absolute-path name))
-                            dirs))
-              (setq dirs (append
-                          (erlang-directory-dirs absolute-path name)
-                          dirs)))))))
-    dirs))
+		(dirs '())
+		(files (directory-files dir nil nil t)))
+	(dolist (file files)
+	  (unless (member file '("." ".."))
+		(let ((absolute-path (expand-file-name (concat dir "/" file))))
+		  (when (file-directory-p absolute-path)
+			(if (string= file name)
+				(setq dirs (append
+							(cons absolute-path
+								  (erlang-directory-dirs absolute-path name))
+							dirs))
+			  (setq dirs (append
+						  (erlang-directory-dirs absolute-path name)
+						  dirs)))))))
+	dirs))
 
 (defun erlang-all-dirs-with-name (name)
   (append (list (concat (erlang-find-rebar-top) name))
-          (erlang-directory-dirs (erlang-find-rebar-top) name)))
+		  (erlang-directory-dirs (erlang-find-rebar-top) name)))
 
 (defun erlang-get-deps-code-path-dirs ()
   (erlang-all-dirs-with-name "ebin"))
@@ -719,15 +857,15 @@ Repeated invocations toggle between the two most recently open buffers."
 (setq erlang-flymake-get-include-dirs-function 'erlang-get-deps-include-dirs)
 
 (add-hook 'erlang-mode-hook
-      (lambda ()
-        (setq inferior-erlang-machine-options (dynamic-inferior-erlang-machine-options))
-        (setq erlang-compile-extra-opts (dynamic-erlang-compile-extra-opts))))
+		  (lambda ()
+			(setq inferior-erlang-machine-options (dynamic-inferior-erlang-machine-options))
+			(setq erlang-compile-extra-opts (dynamic-erlang-compile-extra-opts))))
 
 (defun dynamic-erlang-compile-extra-opts ()
   "Generate compile optins with all 'include' dirs."
   (append
    (mapcar (lambda (dir) (cons 'i dir))
-           (erlang-get-deps-include-dirs))
+		   (erlang-get-deps-include-dirs))
    '(bin_opt_info debug_info (d . \'TEST\'))))
 
 (defun dynamic-inferior-erlang-machine-options ()
@@ -735,11 +873,11 @@ Repeated invocations toggle between the two most recently open buffers."
   (append
    (list "-name" "emacs@127.0.0.1")
    (flatten-list
-    (mapcar (lambda (dir) (list "-pa" dir))
-            (erlang-get-deps-code-path-dirs)))
+	(mapcar (lambda (dir) (list "-pa" dir))
+			(erlang-get-deps-code-path-dirs)))
    (flatten-list
-    (mapcar (lambda (dir) (list "-i" dir))
-            (erlang-get-deps-include-dirs)))))
+	(mapcar (lambda (dir) (list "-i" dir))
+			(erlang-get-deps-include-dirs)))))
 
 ;; +--
 ;; | DIRED
@@ -765,7 +903,7 @@ Repeated invocations toggle between the two most recently open buffers."
 
 ;; define hidden extensions
 (setq-default dired-omit-extensions
-              '(".pyc" ".beam" ".class" ".o" "~" ".dvi" ".aux" ".elc" ".iml"))
+			  '(".pyc" ".beam" ".class" ".o" "~" ".dvi" ".aux" ".elc" ".iml"))
 
 ;; enable omit mode always
 (defun turn-on-omit-mode ()
@@ -789,11 +927,11 @@ Repeated invocations toggle between the two most recently open buffers."
 
 ;; reload dired after making changes
 (--each '(dired-do-rename
-          dired-do-copy
-          dired-create-directory
-          wdired-abort-changes)
+		  dired-do-copy
+		  dired-create-directory
+		  wdired-abort-changes)
   (eval `(defadvice ,it (after revert-buffer activate)
-           (revert-buffer))))
+		   (revert-buffer))))
 
 ;; +--
 ;; | RAINBOW DELIMITERS
@@ -810,8 +948,8 @@ Repeated invocations toggle between the two most recently open buffers."
 (yas-load-directory (expand-file-name "snippets" personal-dir))
 (yas-global-mode 1)
 (add-hook 'prog-mode-hook
-          '(lambda ()
-             (yas-minor-mode)))
+		  '(lambda ()
+			 (yas-minor-mode)))
 
 ;; +--
 ;; | UNIQUIFY
@@ -835,12 +973,12 @@ Repeated invocations toggle between the two most recently open buffers."
 ;; +-------------------+
 (require 'savehist)
 (setq savehist-additional-variables
-      ;; search entries
-      '(search ring regexp-search-ring)
-      ;; save every minute
-      savehist-autosave-interval 60
-      ;; keep the home clean
-      savehist-file (expand-file-name "savehist" personal-savefile-dir))
+	  ;; search entries
+	  '(search ring regexp-search-ring)
+	  ;; save every minute
+	  savehist-autosave-interval 60
+	  ;; keep the home clean
+	  savehist-file (expand-file-name "savehist" personal-savefile-dir))
 (savehist-mode +1)
 
 ;; +--
@@ -848,8 +986,8 @@ Repeated invocations toggle between the two most recently open buffers."
 ;; +-------------------+
 (require 'recentf)
 (setq recentf-save-file (expand-file-name "recentf" personal-savefile-dir)
-      recentf-max-saved-items 500
-      recentf-max-menu-items 15)
+	  recentf-max-saved-items 500
+	  recentf-max-menu-items 15)
 (recentf-mode +1)
 
 ;; +--
@@ -880,13 +1018,13 @@ Repeated invocations toggle between the two most recently open buffers."
 (require 'flx-ido)
 
 (setq ido-enable-prefix nil
-      ido-enable-flex-matching t
-      ido-create-new-buffer 'always
-      ido-use-filename-at-point 'guess
-      ido-max-prospects 10
-      ido-save-directory-list-file (expand-file-name "ido.hist" personal-savefile-dir)
-      ido-default-file-method 'selected-window
-      ido-auto-merge-work-directories-length -1)
+	  ido-enable-flex-matching t
+	  ido-create-new-buffer 'always
+	  ido-use-filename-at-point 'guess
+	  ido-max-prospects 10
+	  ido-save-directory-list-file (expand-file-name "ido.hist" personal-savefile-dir)
+	  ido-default-file-method 'selected-window
+	  ido-auto-merge-work-directories-length -1)
 (ido-mode +1)
 (ido-ubiquitous-mode +1)
 
@@ -916,3 +1054,22 @@ Repeated invocations toggle between the two most recently open buffers."
  '(flymake-errline ((t (:foreground "#5f0000" :background "#EE6AA7" :weight bold :underline nil))))
  '(flymake-warnline ((t (:foreground "#968b26" :background "#fff68f" :weight bold :underline nil))))
  )
+
+(personal-require-packages '(emamux))
+(if (getenv "TMUX")
+	(progn
+	  (require 'emamux)
+	  (global-set-key (kbd "M-!") (lambda () (emamux:run-command)))
+	  (global-set-key (kbd "C-x !") 'emamux:send-command)
+	  (global-set-key (kbd "C-x ~") 'emamux:emamux:close-runner-pane)))
+
+;; start server
+(require 'server)
+(unless (server-running-p)
+  (server-start))
+
+(defun server-shutdown ()
+  "Save buffers, Quit, and Shutdown (kill) server"
+  (interactive)
+  (save-some-buffers)
+  (kill-emacs))
