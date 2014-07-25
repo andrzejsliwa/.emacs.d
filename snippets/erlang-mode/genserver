@@ -1,0 +1,78 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: genserver
+# key: genserver
+# --
+%%%'   HEADER
+%%% @author Andrzej Sliwa <andrzej.sliwa@i-tool.eu>
+%%% @author Artur Roszczyk <artur.roszczyk@gmail.com>
+%%% @since 2014
+%%% @copyright 2014 bonusbox GmbH
+%%% @doc elmer_fudd is a rabbit amqp wrapper
+%%% @end
+-module(${1:`(file-name-nondirectory
+              (file-name-sans-extension (or (buffer-file-name) (buffer-name))))`}).
+-behaviour(gen_server).
+
+
+%% API
+-export([start_link/0,
+         stop/0]).
+
+%% CALLBACKS
+-export([init/1,
+         handle_call/3,
+         handle_cast/2,
+         handle_info/2,
+         terminate/2,
+         code_change/3]).
+
+-define(SERVER, ?MODULE).
+
+-record(state, {}).
+
+%%%.
+%%%'   PUBLIC API
+
+start_link() ->
+    gen_server:start_link({local, ?SERVER}, ?MODULE, [], []).
+
+stop() ->
+    gen_server:call(?SERVER, stop).
+
+%%%.
+%%%'   CALLBACKS
+
+%% @private
+init([]) ->
+    {ok, #state{}}.
+
+%% @private
+handle_call(stop, From, State) ->
+    {stop, normal, From, State};
+handle_call(Request, From, State) ->
+    Reason = {wrong_request, Request, From, State},
+    {stop, Reason, From, State}.
+
+%% @private
+handle_cast(Msg, State) ->
+    Reason = {wrong_message, Msg, State},
+    {stop, Reason, State}.
+
+%% @private
+handle_info(Info, State) ->
+    Reason = {wrong_info, Info, State},
+    {stop, Reason, State}.
+
+%% @private
+terminate(_Reason, _State) ->
+    ok.
+
+%% @private
+code_change(_OldVsn, State, _Extr) ->
+    {ok, State}.
+
+
+%%%.
+%%%'   PRIVATE
+
+%% @private
