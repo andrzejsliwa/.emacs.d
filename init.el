@@ -1081,9 +1081,3 @@ Repeated invocations toggle between the two most recently open buffers."
       (global-set-key (kbd "M-!") (lambda () (emamux:run-command)))
       (global-set-key (kbd "C-x !") 'emamux:send-command)
       (global-set-key (kbd "C-x ~") 'emamux:emamux:close-runner-pane)))
-
-
-;; start server
-(require 'server)
-(server-force-delete)
-(server-start)
