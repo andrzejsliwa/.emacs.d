@@ -281,7 +281,7 @@
     multiple-cursors
     gitconfig-mode
     gitignore-mode
-	git-timemachine
+    git-timemachine
     gist
     w3m
     )
@@ -866,7 +866,7 @@ Repeated invocations toggle between the two most recently open buffers."
         (dirs '())
         (files (directory-files dir nil nil t)))
     (dolist (file files)
-      (unless (member file '("." ".."))
+      (unless (member file '("." ".." "rel" "_rel"))
         (let ((absolute-path (expand-file-name (concat dir "/" file))))
           (when (file-directory-p absolute-path)
             (if (string= file name)
