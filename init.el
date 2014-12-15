@@ -17,9 +17,8 @@
 (global-set-key (kbd "C-c p s") 'projectile-save-project-buffers)
 (global-set-key (kbd "C-c p r") 'projectile-recentf)
 (global-set-key (kbd "C-c p R") 'recentf-projectile-find-file)
-(global-set-key (kbd "C-c p z") 'zoom-window-zoom)
+(global-set-key (kbd "C-c p g") 'git-link)
 (global-set-key (kbd "C-c p l") 'linum-mode)
-
 (global-set-key (kbd "C-c b") 'ace-jump-buffer)
 (global-set-key (kbd "C-c SPC") 'ace-jump-mode)
 (global-set-key (kbd "C-c a c") 'ace-jump-char-mode)
@@ -46,6 +45,7 @@
 (global-set-key (kbd "C-x 4") 'balance-windows)
 (global-set-key (kbd "C-x 5") 'swap-windows)
 (global-set-key (kbd "C-x 6") 'split-window-transpose)
+(global-set-key (kbd "C-x 7") 'zoom-window-zoom)
 (global-set-key (kbd "TAB") 'smart-tab)
 (global-set-key (kbd "C-w") 'kill-region-or-backward-kill-word)
 
@@ -282,8 +282,14 @@
     gitconfig-mode
     gitignore-mode
     git-timemachine
+	git-link
     gist
     w3m
+    haskell-mode
+    flycheck-haskell
+    alchemist
+	elixir-mode
+	flymake-elixir
     )
   "A list of packages to ensure are installed at launch.")
 
@@ -701,6 +707,12 @@ Repeated invocations toggle between the two most recently open buffers."
 (global-flycheck-mode t)
 
 ;; +--
+;; | GIT
+;; +-------------------+
+(require 'git-link)
+(custom-set-variables '(git-link-open-in-browser t))
+
+;; +--
 ;; | PBCOPY
 ;; +-------------------+
 (require 'pbcopy)
@@ -751,6 +763,41 @@ Repeated invocations toggle between the two most recently open buffers."
        ;; CamelCase aware editing operations
        (subword-mode +1))
      (add-hook 'ruby-mode-hook 'ruby-mode-defaults)))
+
+(defun xmp-clear ()
+  "Clear XMP comments."
+  (interactive)
+  (save-excursion
+    (goto-char 0)
+    (while (search-forward-regexp "# *=>" nil t)
+      (if (not (looking-at " *\n"))
+          (kill-line))))
+  (save-excursion
+    (goto-char 0)
+    (while (search-forward-regexp "# *!>" nil t)
+      (search-backward "#")
+      (kill-line)))
+  (save-excursion
+    (goto-char 0)
+    (while (search-forward-regexp "# *\\(>>\\|~>\\)" nil t)
+      (beginning-of-line)
+      (kill-line 1))))
+
+(defun annotate-ruby()
+  "do it up"
+  (interactive)
+  (progn
+    (move-end-of-line nil)
+    (insert "  # => ")
+    (xmp)
+    (forward-char)))
+
+(eval-after-load 'ruby-mode
+  '(progn
+     (require 'rcodetools)
+     (setq xmpfilter-command-name "ruby -S xmpfilter --dev --fork --detect-rbtest")
+     (define-key ruby-mode-map (kbd "C-c C-f") 'xmp-clear)
+     (define-key ruby-mode-map (kbd "C-c C-c") 'xmp)))
 
 (add-hook 'ruby-mode-hook 'inf-ruby-minor-mode)
 
@@ -974,7 +1021,11 @@ Repeated invocations toggle between the two most recently open buffers."
 ;; +-------------------+
 (personal-require-packages '(rainbow-delimiters))
 (require 'rainbow-delimiters)
-(global-rainbow-delimiters-mode)
+(add-hook 'ruby-mode-hook 'rainbow-delimiters-mode)
+(add-hook 'erlang-mode-hook 'rainbow-delimiters-mode)
+(add-hook 'clojure-mode-hook 'rainbow-delimiters-mode)
+(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+(add-hook 'elisp-mode-hook 'rainbow-delimiters-mode)
 
 ;; +--
 ;; | YASNIPPET
@@ -986,6 +1037,15 @@ Repeated invocations toggle between the two most recently open buffers."
 (add-hook 'prog-mode-hook
           '(lambda ()
              (yas-minor-mode)))
+
+;; +--
+;; | DASH
+;; +-------------------+
+(personal-require-packages '(dash-at-point))
+(autoload 'dash-at-point "dash-at-point"
+  "Search the word at point with Dash." t nil)
+(global-set-key "\C-cd" 'dash-at-point)
+(global-set-key "\C-ce" 'dash-at-point-with-docset)
 
 ;; +--
 ;; | UNIQUIFY
@@ -1098,3 +1158,17 @@ Repeated invocations toggle between the two most recently open buffers."
       (global-set-key (kbd "M-!") (lambda () (emamux:run-command)))
       (global-set-key (kbd "C-x !") 'emamux:send-command)
       (global-set-key (kbd "C-x ~") 'emamux:emamux:close-runner-pane)))
+
+
+(defun build-c64-file ()
+  (interactive)
+  (let ((file buffer-file-name))
+    (shell-command (concat "cd .. && make start "
+                           (file-name-sans-extension
+                            (file-name-nondirectory file))))))
+
+(eval-after-load 'asm-mode
+  '(progn
+     (define-key asm-mode-map (kbd "C-c C-c") 'build-c64-file)))
+
+(require 'alchemist)
